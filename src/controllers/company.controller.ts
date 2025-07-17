@@ -13,3 +13,22 @@ export const createCompany = async (req: Request, res: Response) => {
     });
     res.json(company);
 };
+
+export const updateCompany = async (req: Request, res: Response) => {
+    const { id } = req.params;
+    const { name, isActive } = req.body;
+
+    try {
+        const company = await prisma.company.update({
+            where: { id: Number(id) },
+            data: {
+                ...(name !== undefined && { name }),
+                ...(isActive !== undefined && { isActive }),
+            },
+        });
+        res.json(company);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Erro ao atualizar empresa' });
+    }
+};
