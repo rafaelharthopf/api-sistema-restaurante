@@ -1,5 +1,6 @@
 import { Router, Request, Response } from 'express';
 import prisma from '../prisma/client';
+import { Order } from '@prisma/client';
 
 const router = Router();
 
@@ -20,7 +21,7 @@ router.get('/:companyId', async (req: Request, res: Response) => {
       'Dom': 0, 'Seg': 0, 'Ter': 0, 'Qua': 0, 'Qui': 0, 'Sex': 0, 'Sáb': 0,
     };
 
-    orders.forEach(({ createdAt }) => {
+    orders.forEach(({ createdAt }: Pick<Order, 'createdAt'>) => {
       const dia = createdAt.toLocaleDateString('pt-BR', { weekday: 'short' });
       vendasPorDia[dia] = (vendasPorDia[dia] || 0) + 1;
     });
@@ -37,8 +38,8 @@ router.get('/:companyId', async (req: Request, res: Response) => {
 
     const itemCount: Record<string, number> = {};
 
-    allOrders.forEach(({ items }) => {
-      items.forEach((item) => {
+    allOrders.forEach(({ items }: Pick<Order, 'items'>) => {
+      items.forEach((item: string) => {
         itemCount[item] = (itemCount[item] || 0) + 1;
       });
     });
