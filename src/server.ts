@@ -10,6 +10,8 @@ import userRoutes from './routes/user.routes';
 import authRoutes from './routes/auth.routes';
 import reportsRouter from './routes/reports.routes';
 
+import { checkApiKey } from './middlewares/securityApi';
+
 dotenv.config();
 
 const app = express();
@@ -23,12 +25,13 @@ app.use(cors({
 
 
 // Rotas
+app.use('/login', authRoutes);
+app.use(checkApiKey);
 app.use('/companies', companyRoutes);
 app.use('/menu', menuRoutes);
 app.use('/orders', orderRoutes);
 app.use('/roles', roleRoutes);
 app.use('/users', userRoutes);
-app.use('/login', authRoutes);
 app.use('/reports', reportsRouter);
 
 export default app;
