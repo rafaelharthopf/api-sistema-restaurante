@@ -18,7 +18,7 @@ const app = express();
 app.use(express.json());
 
 app.use(cors({
-  origin: 'https://sistemarestaurante-silk.vercel.app',  
+  origin: process.env.URL_PROD,  
   methods: ['GET', 'POST', 'PUT', 'PATCH','DELETE'],
   credentials: true,
 }));
